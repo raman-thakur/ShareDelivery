@@ -8,6 +8,15 @@ const User = require("./models/users");
 const bodyParser = require("body-parser");
 app.use(express.urlencoded({ extended: true }));
 const jasonParser = bodyParser.json();
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
+const methodOverride = require("method-override");
+app.use(methodOverride("_method"));
+const http = require("http");
+const cors = require("cors");
+app.use(cors({ credentials: true, origin: ("http://localhost:"+process.env.frontendport) }));
 
 mongoose
   .connect(
@@ -21,6 +30,9 @@ mongoose
     console.warn("you are sucessfully connected to mongodb atlas");
   });
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////TESTING ROUTES/////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   app.get("/", (req, res) => {
     res.send("this is the landing page");
@@ -34,9 +46,23 @@ mongoose
     res.send("new user registeration page");
   });
 
-  app.get("/user", (req, res) => {
+ 
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////USER ROUTES//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  app.get("/users", (req, res) => {
     User.find().then((data) => {
       console.log(data);
+      res.send(data);
+    });
+  });
+
+  app.get("/user/:id", jasonParser, (req, res) => {
+    const { id } = req.params;
+    User.findById(id).then((data) => {
       res.send(data);
     });
   });
@@ -53,11 +79,69 @@ mongoose
       password: req.body.password,
     });
   
-    
-      data.save().then((result) => {
-        console.log(result);
-        res.send("data saved sucessfully")
-      });
+    User.findOne({ email: req.body.email }).then((existingUser) => {
+      if (existingUser)
+      {
+        console.log("user already exist with given email kindly login")
+        res.send("login page")
+      } 
+      else
+      {
+        bcrypt.hash(req.body.password, Number(process.env.SaltRounds), function (err, hash) {
+          if (err) throw err;
+      
+          data.password = hash;
+          data.save().then((result) => {
+            // jwt.sign(
+            //   { result },
+            //   process.env.jwtkey,
+            //   { expiresIn: "30000d" },
+            //   (err, token) => {
+            //     res.cookie("jwt", token);
+            //     res.redirect("http://localhost:3000/");
+            //   }
+            // );
+            console.log(result)
+            res.send("data saved succesfully")
+          });
+        });
+      }
+    });
   });
   
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////REQUEST ROUTES/////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////
+  app.get("/requests", (req, res) => {
+    Request.find().then((data) => {
+      console.log(data);
+      res.send(data);
+    });
+  });
+
+  app.get("/request/:id", jasonParser, (req, res) => {
+    const { id } = req.params;
+    Request.findById(id).then((data) => {
+      res.send(data);
+    });
+  });
+
+  app.post("/request", jasonParser, function (req, res) {
+    let data = new Request({
+      _id: new mongoose.Types.ObjectId(),
+      requestedby: req.body.requestedby,
+      requiredvalue: req.body.requiredvalue,
+      raisedate: new Date(),
+      deadlinehours: req.body.deadlinehours,
+      website: req.body.website,
+    });
+    
+    data.save().then((result)=>{
+      console.log(result)
+      res.send("new request generated")
+    })
+  });
+
+
   app.listen(process.env.PORT);
+
