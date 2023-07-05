@@ -109,6 +109,18 @@ mongoose
     });
   });
   
+  app.put("/user/:id", jasonParser, async (req, res) => {
+    let { id } = req.params; //this is for production
+    // id = id.slice(1, id.length); //this is for running
+  
+    const prevcustomer = await User.findById(id);
+    await User.findByIdAndUpdate(id, req.body, {
+      runValidators: true,
+      new: true,
+    });
+    res.send("user detail updated!!");
+  });
+  
   ////////////////////////////////////////////////////////////////////////////////////////////////////////
   /////////////////////////////////REQUEST ROUTES/////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -142,6 +154,32 @@ mongoose
     })
   });
 
+  app.put("/request/:id", jasonParser, async (req, res) => {
+    let { id } = req.params; //this is for production
+    // id = id.slice(1, id.length); //this is for running
+  
+    const prevcustomer = await Request.findById(id);
+    let data = new Request({
+      _id: id,
+      requestedby: req.body.requestedby,
+      requiredvalue: req.body.requiredvalue,
+      raisedate: new Date(),
+      deadlinehours: req.body.deadlinehours,
+      website: req.body.website,
+    });
+    await Request.findByIdAndUpdate(id, data, {
+      runValidators: true,
+      new: true,
+    });
+    res.send("request updated!!");
+  });
+
+  app.delete("/request/delete/:id", jasonParser, async (req, res) => {
+    let { id } = req.params;
+    // id = id.slice(1, id.length);
+    await Request.findByIdAndDelete(id);
+    res.send("request deleted");
+  });
 
   app.listen(process.env.PORT);
 
