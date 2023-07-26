@@ -1,0 +1,150 @@
+body {
+  margin: 0;
+}
+
+.Nav-bar {
+  width: 100%;
+  height: 55px;
+  display: flex;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  top: 0;
+  position: fixed;
+  background-color: white;
+}
+
+.Nav-logo {
+  width: 10%;
+  margin-left: 3%;
+}
+
+.Nav-links {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.Nav-links>a {
+  margin-right: 3%;
+  text-align: center;
+  padding-top: 1.5%;
+}
+
+.Request-list {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 3%;
+  margin-right: 3%;
+  margin-top: 5%;
+}
+
+.Request {
+  width: 20%;
+  height: 10%;
+  margin-left: 2.5%;
+  margin-bottom: 2%;
+  border-style: groove;
+  border-radius: 5%;
+  margin-right: none;
+}
+
+.Request .Site {
+  margin: 0px;
+  padding: 1%;
+  text-align: center;
+}
+
+.Request .Name {
+  margin-top: 8%;
+  margin-bottom: 0px;
+  margin-left: 3%;
+}
+
+.Request .Address {
+  margin: 0px;
+  margin-left: 3%;
+}
+
+.Request .Value {
+  margin: 0px;
+  margin-left: 3%;
+}
+
+.Request .Deadline {
+  margin: 0px;
+  margin-left: 3%;
+}
+
+.love-shoping {
+  display: flex;
+  font-size: 20px;
+  margin: 7%;
+}
+
+.love-shoping img {
+  height: 40%;
+  width: 40%;
+}
+
+.love-shoping div {
+  padding-top: 7%;
+  margin-right: 8%;
+  margin-left: 5%;
+}
+
+.we-solve {
+  display: flex;
+  font-size: 20px;
+  margin-top: 5%;
+  margin-left: 3%;
+  margin-right: 3%;
+}
+
+.we-solve img {
+  height: 40%;
+  width: 40%;
+}
+
+.we-solve div {
+  padding-top: 7%;
+  margin-left: 8%;
+  margin-right: 5%;
+}
+
+.available-on {
+  display: flex;
+  justify-content: center;
+}
+
+.available-on .amazonlogo {
+  height: 10%;
+  width: 25%;
+  margin-top: 4%;
+}
+
+.available-on .flipkartlogo {
+  height: 10%;
+  width: 20%;
+  margin-top: 2%;
+}
+
+.available-on .myntralogo {
+  height: 10%;
+  width: 19%;
+  margin-left: 1%;
+}
+
+.available-on .ajiologo {
+  height: 8%;
+  width: 12%;
+  margin-left: 2%;
+  margin-top: 7%;
+}
+
+.logos-heading {
+  margin-top: 8%;
+  font-size: 30px;
+  text-align: center;
+  text-decoration: underline;
+}
