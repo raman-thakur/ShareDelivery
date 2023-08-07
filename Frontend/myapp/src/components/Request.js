@@ -1,7 +1,12 @@
+import Nav from './NavBar'
 import React from "react";
 
 const Request = () =>{
     return(
+        <div>
+            <div className='sticky-nav'>
+                <Nav/>
+            </div>
         <div className="Request">
             <p className="Site">Flipkart</p>
             <p className="Name">Raman Thakur</p>
@@ -9,6 +14,7 @@ const Request = () =>{
             <p className="Address">pincode</p>
             <p className="Address">800/-</p>
             <p className="Address">deadline</p>
+        </div>
         </div>
     );
 };

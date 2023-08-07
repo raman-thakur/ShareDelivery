@@ -10,7 +10,11 @@ body {
   padding-bottom: 1%;
   top: 0;
   position: fixed;
-  background-color: white;
+  background-color: rgb(236, 233, 233);
+}
+
+.sticky-nav {
+  height: 150px;
 }
 
 .Nav-logo {
@@ -79,7 +83,7 @@ body {
 .love-shoping {
   display: flex;
   font-size: 20px;
-  margin: 7%;
+  margin: 3%;
 }
 
 .love-shoping img {

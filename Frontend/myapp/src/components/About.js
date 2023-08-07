@@ -1,7 +1,13 @@
+
+import Nav from './NavBar'
 import React from "react";
 
 const Landing = () =>{
     return(
+        <div>
+        <div className='sticky-nav'>
+        <Nav/>
+        </div>
         <div className="Landing">
             <div className="love-shoping">
             <div>
@@ -24,6 +30,7 @@ const Landing = () =>{
             <img src="/myntra-logo.png" className="myntralogo" alt="Logo" />
             <img src="/ajio-logo.png" className="ajiologo"alt="Logo" />
             </div>
+        </div>
         </div>
     );
 };
