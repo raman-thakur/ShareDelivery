@@ -1,5 +1,5 @@
-import Nav from './NavBar'
 import React from "react";
+import Nav from './NavBar'
 
 const Request = () =>{
     return(

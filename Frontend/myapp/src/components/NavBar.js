@@ -5,9 +5,9 @@ const Nav = () =>{
         <div className="Nav-bar">
             <img className="Nav-logo" src="/brandlogo.png" alt="Logo" />
             <div className="Nav-links">
-            <a href="/">Dashboard</a> 
-            <a href="/">Login</a> 
-            <a href="/">Signup</a>
+            <a href="/request">Dashboard</a> 
+            <a href="/login">Login</a> 
+            <a href="/signup">Signup</a>
             </div>
         </div>
     );
