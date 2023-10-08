@@ -183,3 +183,25 @@ mongoose
 
   app.listen(process.env.PORT);
 
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////login route/////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////
+  app.post("/login", jasonParser, function (req, res) {
+    User.findOne({ email: req.body.email }).then((data) => {
+      if (!data) res.redirect("http://localhost:3000/register");
+  
+      var password2 = req.body.password;
+      bcrypt.compare(password2, data.password, function (err, result) {
+        if (result) {
+          // jwt.sign({ data }, jwtkey, { expiresIn: "30000d" }, (err, token) => {
+          //   res.cookie("jwt", token);
+          //   res.redirect("http://localhost:3000/request");
+          // });
+          res.send("loggedin")
+        } else {
+          res.send("failed");
+        }
+      });
+    });
+  });
