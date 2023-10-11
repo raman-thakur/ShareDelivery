@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 dotenv.config({ path: "./config.env" });
 const Request = require("./models/requests");
 const User = require("./models/users");
+const verifyToken = require("./middlewares/authentication");
 const bodyParser = require("body-parser");
 app.use(express.urlencoded({ extended: true }));
 const jasonParser = bodyParser.json();
@@ -55,7 +56,7 @@ mongoose
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   app.get("/users", (req, res) => {
     User.find().then((data) => {
-      console.log(data);
+      // console.log(data);
       res.send(data);
     });
   });
@@ -82,8 +83,8 @@ mongoose
     User.findOne({ email: req.body.email }).then((existingUser) => {
       if (existingUser)
       {
-        console.log("user already exist with given email kindly login")
-        res.send("login page")
+        // console.log("user already exist with given email kindly login")
+        res.redirect("http://localhost:3000/login");
       } 
       else
       {
@@ -92,17 +93,17 @@ mongoose
       
           data.password = hash;
           data.save().then((result) => {
-            // jwt.sign(
-            //   { result },
-            //   process.env.jwtkey,
-            //   { expiresIn: "30000d" },
-            //   (err, token) => {
-            //     res.cookie("jwt", token);
-            //     res.redirect("http://localhost:3000/");
-            //   }
-            // );
-            console.log(result)
-            res.send("data saved succesfully")
+            jwt.sign(
+              { result },
+              process.env.JWTKey,
+              { expiresIn: "1d" },
+              (err, token) => {
+                res.cookie("jwt", token);
+                res.redirect("http://localhost:3000/");
+              }
+            );
+            // console.log(result)
+            // res.send("data saved succesfully")
           });
         });
       }
@@ -126,7 +127,7 @@ mongoose
   ////////////////////////////////////////////////////////////////////////////////////////////////////////
   app.get("/requests", (req, res) => {
     Request.find().then((data) => {
-      console.log(data);
+      // console.log(data);
       res.send(data);
     });
   });
@@ -149,7 +150,7 @@ mongoose
     });
     
     data.save().then((result)=>{
-      console.log(result)
+      // console.log(result)
       res.send("new request generated")
     })
   });
@@ -189,19 +190,25 @@ mongoose
   ////////////////////////////////////////////////////////////////////////////////////////////////////////
   app.post("/login", jasonParser, function (req, res) {
     User.findOne({ email: req.body.email }).then((data) => {
-      if (!data) res.redirect("http://localhost:3000/register");
+      if (!data) res.redirect("http://localhost:3000/signup");
   
       var password2 = req.body.password;
       bcrypt.compare(password2, data.password, function (err, result) {
         if (result) {
-          // jwt.sign({ data }, jwtkey, { expiresIn: "30000d" }, (err, token) => {
-          //   res.cookie("jwt", token);
-          //   res.redirect("http://localhost:3000/request");
-          // });
-          res.send("loggedin")
+          jwt.sign({ data }, process.env.JWTKey, { expiresIn: "1d" }, (err, token) => {
+            res.cookie("jwt", token);
+            res.redirect("http://localhost:3000/");
+          });
         } else {
-          res.send("failed");
+          res.redirect("http://localhost:3000/login");
         }
       });
     });
   });
+
+  app.get("/isloggedin", verifyToken, (req, res) => {
+    res.send({
+      loggedin: 1,
+    });
+  });
+  

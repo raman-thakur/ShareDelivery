@@ -6,7 +6,10 @@ const Register = () =>{
             <div className='sticky-nav'>
                 <Nav/>
             </div>
-           <form className="form-ui">
+           <form 
+           action="http://localhost:8000/register"
+           method="POST"
+           className="form-ui">
            <div className="form-row">
                   <label className="label">Name:</label>
                   <div className="form-input">
