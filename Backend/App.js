@@ -142,7 +142,7 @@ mongoose
   app.post("/request", jasonParser, function (req, res) {
     let data = new Request({
       _id: new mongoose.Types.ObjectId(),
-      requestedby: req.body.requestedby,
+      requestedby: "b@gmail.com",
       requiredvalue: req.body.requiredvalue,
       raisedate: new Date(),
       deadlinehours: req.body.deadlinehours,
@@ -151,7 +151,7 @@ mongoose
     
     data.save().then((result)=>{
       // console.log(result)
-      res.send("new request generated")
+      res.redirect("http://localhost:3000/request")
     })
   });
 
