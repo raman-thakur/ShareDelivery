@@ -1,4 +1,3 @@
-// import logo from '../public/brandlogo.png';
 import Request from './components/Request'
 import About from './components/About'
 import Nav from './components/NavBar'
