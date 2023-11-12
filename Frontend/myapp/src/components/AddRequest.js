@@ -40,6 +40,26 @@ const AddRequest = () =>{
                     />
                   </div>
                 </div>
+                <div className="form-row">
+                  <label className="label">Address:</label>
+                  <div className="form-input">
+                    <input
+                      type="string"
+                      name="address"
+                      id="address"
+                    />
+                  </div>
+                </div>
+                <div className="form-row">
+                  <label className="label">PinCode:</label>
+                  <div className="form-input">
+                    <input
+                      type="number"
+                      name="pincode"
+                      id="pincode"
+                    />
+                  </div>
+                </div>
                 <div className="login-button">
                 <button>Add Request</button>
                 </div>

@@ -36,7 +36,10 @@ mongoose
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   app.get("/", (req, res) => {
-    res.send("this is the landing page");
+    const savedtoken=req.cookies.jwt
+    const decoded = jwt.verify(savedtoken, process.env.JWTKey,);
+    console.log(decoded);
+    res.send(decoded);
   });
 
   app.get("/login", (req, res) => {
@@ -140,15 +143,20 @@ mongoose
   });
 
   app.post("/request", jasonParser, function (req, res) {
+    const savedtoken=req.cookies.jwt
+    const decoded = jwt.verify(savedtoken, process.env.JWTKey,);
     let data = new Request({
       _id: new mongoose.Types.ObjectId(),
-      requestedby: "b@gmail.com",
+      requestedby: decoded.data.email,
       requiredvalue: req.body.requiredvalue,
       raisedate: new Date(),
+      pincode: req.body.pincode,
+      address: req.body.address,
       deadlinehours: req.body.deadlinehours,
       website: req.body.website,
     });
     
+    // console.log(usertoken);
     data.save().then((result)=>{
       // console.log(result)
       res.redirect("http://localhost:3000/request")

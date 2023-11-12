@@ -6,6 +6,8 @@ let requestSchema = new mongoose.Schema({
   requiredvalue: { type: Number },
   raisedate: { type: Date },
   deadlinehours: {type: Number},
+  address: {type: String},
+  pincode: {type: Number},
   website: { type: String }
 }, {
   versionKey: false 

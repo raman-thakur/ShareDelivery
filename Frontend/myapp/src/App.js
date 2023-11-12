@@ -4,7 +4,7 @@ import Nav from './components/NavBar'
 import Login from './components/Login'
 import Register from './components/Register'
 import AddRequest from './components/AddRequest'
-import Mapex from './components/Mapex'
+import Location from './components/Location'
 import './App.css';
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -36,7 +36,7 @@ function App() {
             <Route path="/login" exact component={Login} />
             <Route path="/signup" exact component={Register} />
             <Route path="/addrequest" exact component={AddRequest} />
-            <Route path="/map" exact component={Mapex} />
+            <Route path="/map" exact component={Location} />
         </Switch>
         </Router>
     </div>

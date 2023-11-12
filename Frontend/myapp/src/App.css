@@ -80,6 +80,10 @@ body {
   margin-left: 3%;
 }
 
+.add-request-link {
+  margin-left: 5.5%;
+}
+
 .love-shoping {
   display: flex;
   font-size: 20px;
