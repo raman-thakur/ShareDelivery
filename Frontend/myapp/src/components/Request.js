@@ -2,10 +2,10 @@ import { react, useState, useEffect } from "react";
 import axios from "axios";
 import Nav from './NavBar'
 
+
+
 const Request = () =>{
     const [requests, setrequests] = useState([]);
-
-
     useEffect(() => {
         axios.get("http://localhost:8000/requests").then((data)=>{
             const fun = (prop) =>{
@@ -17,6 +17,21 @@ const Request = () =>{
             setrequests(arr);
         });
     },[]);
+
+    const Location = () =>{
+        const [currLocation, setCurrLocation] = useState({});
+        useEffect(() => {
+          getLocation();
+        }, []);
+      
+      
+        const getLocation = () => {
+          navigator.geolocation.getCurrentPosition((position) => {
+          //   console.log(position);
+            const { latitude, longitude } = position.coords;
+            setCurrLocation({ latitude, longitude });
+          });
+        };
 
     if(requests.length < 1)
     {
