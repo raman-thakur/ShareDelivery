@@ -4,7 +4,7 @@ body {
 
 .Nav-bar {
   width: 100%;
-  height: 55px;
+  height: 10%;
   display: flex;
   padding-top: 1%;
   padding-bottom: 1%;
@@ -60,7 +60,7 @@ body {
 }
 
 .Request .Name {
-  margin-top: 8%;
+  margin-top: 4%;
   margin-bottom: 0px;
   margin-left: 3%;
 }
@@ -68,6 +68,7 @@ body {
 .Request .Address {
   margin: 0px;
   margin-left: 3%;
+  margin-top: 2%;
 }
 
 .Request .Value {
@@ -206,4 +207,14 @@ button {
   border-radius: 10%;
   font-size: medium;
   /* color: rgb(141, 230, 121); */
+}
+
+.location-input {
+  width: 45%;
+}
+
+.locate-button {
+  width: 30%;
+  margin-left: 10%;
+  background-color: rgb(207, 216, 198);
 }

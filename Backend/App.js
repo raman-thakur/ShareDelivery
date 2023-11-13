@@ -143,17 +143,23 @@ mongoose
   });
 
   app.post("/request", jasonParser, function (req, res) {
+    console.log(req.body)
     const savedtoken=req.cookies.jwt
     const decoded = jwt.verify(savedtoken, process.env.JWTKey,);
+    console.log(decoded)
     let data = new Request({
       _id: new mongoose.Types.ObjectId(),
       requestedby: decoded.data.email,
       requiredvalue: req.body.requiredvalue,
+      requester: decoded.data.name,
       raisedate: new Date(),
       pincode: req.body.pincode,
+      location: req.body.location,
+      contact: req.body.contact,
       address: req.body.address,
       deadlinehours: req.body.deadlinehours,
       website: req.body.website,
+      
     });
     
     // console.log(usertoken);

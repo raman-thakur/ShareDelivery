@@ -18,20 +18,7 @@ const Request = () =>{
         });
     },[]);
 
-    const Location = () =>{
-        const [currLocation, setCurrLocation] = useState({});
-        useEffect(() => {
-          getLocation();
-        }, []);
-      
-      
-        const getLocation = () => {
-          navigator.geolocation.getCurrentPosition((position) => {
-          //   console.log(position);
-            const { latitude, longitude } = position.coords;
-            setCurrLocation({ latitude, longitude });
-          });
-        };
+        
 
     if(requests.length < 1)
     {
@@ -102,12 +89,13 @@ const Request = () =>{
         for(var i=0;i<requests.length;i++){
             listrequests.push(
                 <div className="Request">
-                <p className="Site">{requests[i].website}</p>
-                <p className="Name">{requests[i].requestedby}</p>
+                <p className="Site"><b>{requests[i].website}</b></p>
+                <p className="Name">Requested By: {requests[i].requester}</p>
+                <p className="Address">Value Required: {requests[i].requiredvalue}/-</p>
+                <p className="Address">Contact: {requests[i].contact}</p>
                 <p className="Address">Address: {requests[i].address}</p>
                 <p className="Address">pincode: {requests[i].pincode}</p>
-                <p className="Address">{requests[i].requiredvalue}/-</p>
-                <p className="Address">{requests[i].deadlinehours}</p>
+                <p className="Address">Deadline hour: {requests[i].deadlinehours}</p>
             </div>
             );
         }
