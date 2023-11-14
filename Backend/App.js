@@ -17,6 +17,7 @@ const methodOverride = require("method-override");
 app.use(methodOverride("_method"));
 const http = require("http");
 const cors = require("cors");
+const { decode } = require("punycode");
 app.use(cors({ credentials: true, origin: ("http://localhost:"+process.env.frontendport) }));
 
 mongoose
@@ -128,9 +129,11 @@ mongoose
   ////////////////////////////////////////////////////////////////////////////////////////////////////////
   /////////////////////////////////REQUEST ROUTES/////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////////////////////
+  
   app.get("/requests", (req, res) => {
     Request.find().then((data) => {
       // console.log(data);
+      
       res.send(data);
     });
   });
@@ -143,15 +146,19 @@ mongoose
   });
 
   app.post("/request", jasonParser, function (req, res) {
-    console.log(req.body)
+    // console.log(req.body)
     const savedtoken=req.cookies.jwt
     const decoded = jwt.verify(savedtoken, process.env.JWTKey,);
     console.log(decoded)
+    if(decoded.data)
+    {
+      decoded.result=decoded.data
+    }
     let data = new Request({
       _id: new mongoose.Types.ObjectId(),
-      requestedby: decoded.data.email,
+      requestedby: decoded.result.email,
       requiredvalue: req.body.requiredvalue,
-      requester: decoded.data.name,
+      requester: decoded.result.name,
       raisedate: new Date(),
       pincode: req.body.pincode,
       location: req.body.location,
