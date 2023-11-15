@@ -2,26 +2,7 @@ import { react, useState, useEffect } from "react";
 import axios from "axios";
 import Nav from './NavBar'
 
-function calcCrow(lat1, lon1, lat2, lon2) 
-  {
-      var R = 6371; // km
-      var dLat = toRad(lat2-lat1);
-      var dLon = toRad(lon2-lon1);
-      var lat1 = toRad(lat1);
-      var lat2 = toRad(lat2);
 
-      var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-        Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
-      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-      var d = R * c;
-      return d;
-  }
-
-    // Converts numeric degrees to radians
-  function toRad(Value) 
-  {
-     return Value * Math.PI / 180;
-  }
 
 
 const Request = () =>{
@@ -37,6 +18,12 @@ const Request = () =>{
           setCurrLocation({ latitude, longitude });
         });
       };
+
+    const distancechanger = () =>{
+        setdistance(document.getElementById("distancefilter").value);
+    }
+
+    
     useEffect(() => {
         axios.get("http://localhost:8000/requests").then((data)=>{
             console.log(data.data);
@@ -50,15 +37,45 @@ const Request = () =>{
 
     useEffect(() => {
         getLocation();
-        setdistance(14);
     },[]);
     
+    const distanceCalculator=(lat1, lon1, lat2, lon2) => {
+        if ((lat1 == lat2) && (lon1 == lon2)) {
+            return 0;
+        }
+        else {
+            var radlat1 = Math.PI * lat1/180;
+            var radlat2 = Math.PI * lat2/180;
+            var theta = lon1-lon2;
+            var radtheta = Math.PI * theta/180;
+            var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+            if (dist > 1) {
+                dist = 1;
+            }
+            dist = Math.acos(dist);
+            dist = dist * 180/Math.PI;
+            dist = dist * 60 * 1.1515;
+            dist = dist * 1.609344
+            
+            return dist;
+        }
+    }
 
     useEffect(() => {
         let listrequests=[];
         for(var i=0;i<requests.length;i++){
             // setdistance(12);
-            console.log(distance);
+            // console.log(distance);
+            let locationarray=requests[i].location.split(',');
+            let lat1=locationarray[0];
+            let log1=locationarray[1];
+            // locationarray=requests[i].location.split(',');
+            let lat2=currLocation.latitude
+            let log2=currLocation.longitude
+            let calculateddistance=distanceCalculator(lat1,log1,lat2,log2);
+            console.log(calculateddistance)
+            if(calculateddistance<=distance)
+            {
             listrequests.push(
                 <div className="Request">
                 <p className="Site"><b>{requests[i].website}</b></p>
@@ -70,6 +87,7 @@ const Request = () =>{
                 <p className="Address">Deadline hour: {requests[i].deadlinehours}</p>
             </div>
             );
+            }
         }
         setfilterrequest(listrequests);
     },[requests, distance]);
@@ -81,9 +99,23 @@ const Request = () =>{
                 <div className='sticky-nav'>
                     <Nav/>
                 </div>
-                <div className='add-request-link'>
-                <a href="/addrequest">Add Request</a> 
+                <div className="requestandfilter">
+                    <div className='add-request-link'>
+                    <a href="/addrequest">Add Request</a> 
+                    </div>
+                    <select id="distancefilter" name="distance">
+                    <option value="1">100m</option>
+                    <option value="2">300m</option>
+                    <option value="4">600m</option>
+                    <option value="5">1.0 km</option>
+                    <option value="4">1.5 km</option>
+                    <option value="4">2.0 km</option>
+                    <option value="4">3.0 km</option>
+                    <option value="4">5.0 km</option>
+                    </select>
+                    <p>ifjwwd</p>
                 </div>
+                
             <div className="Request-list">
             <div className="Request">
                 <p className="Site">Flipkart</p>
@@ -160,8 +192,23 @@ const Request = () =>{
                 <div className='sticky-nav'>
                     <Nav/>
                 </div>
-                <div className='add-request-link'>
-                <a href="/addrequest">Add Request</a> 
+                <div className="requestandfilter">
+                    <div className='add-request-link'>
+                    <a href="/addrequest">Add Request</a> 
+                    </div>
+                    <div className="filter">
+                    <p>Filter by Distance&nbsp;&nbsp;</p>
+                    <select id="distancefilter" onChange={distancechanger} name="distance">
+                    <option value="0.1">100m</option>
+                    <option value="0.3">300m</option>
+                    <option value="0.6">600m</option>
+                    <option value="1.0">1.0 km</option>
+                    <option value="1.5">1.5 km</option>
+                    <option value="2.0">2.0 km</option>
+                    <option value="3.0">3.0 km</option>
+                    <option value="5.0">5.0 km</option>
+                    </select>
+                    </div>
                 </div>
             <div className="Request-list">
             {filterrequest}

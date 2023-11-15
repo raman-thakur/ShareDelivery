@@ -34,6 +34,22 @@ body {
   padding-top: 1.5%;
 }
 
+.requestandfilter {
+  width: 100%;
+  margin: 5%;
+
+  display: flex;
+}
+
+.filter {
+  display: flex;
+  margin-left: 65%;
+}
+
+.distancefilter {
+  margin-left: 1%;
+}
+
 .Request-list {
   width: 100%;
   display: flex;
@@ -81,9 +97,7 @@ body {
   margin-left: 3%;
 }
 
-.add-request-link {
-  margin-left: 5.5%;
-}
+
 
 .love-shoping {
   display: flex;
